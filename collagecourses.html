@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses - Navgujarat College</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background: #f8f9ff;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #333;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: left 0.3s ease;
+        }
+
+        .logo:hover::before {
+            left: 0;
+        }
+
+    .nav-links { display: flex; list-style: none; gap: 2rem; }
+    .nav-links li a {
+      text-decoration: none; color: #333; font-weight: 500;
+      padding: 0.5rem 1rem; border-radius: 25px; position: relative;
+      transition: all 0.3s ease-in-out;
+    }
+    .nav-links li a.active {
+      background: linear-gradient(45deg, #667eea, #764ba2); color: white;
+    }
+    .nav-links li a:hover { color: white; background: linear-gradient(45deg, #667eea, #764ba2);}
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 8rem 0 4rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="rgba(255,255,255,0.1)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></radialGradient></defs><circle cx="200" cy="150" r="50" fill="url(%23a)"><animate attributeName="cy" values="150;250;150" dur="4s" repeatCount="indefinite"/></circle><circle cx="800" cy="200" r="70" fill="url(%23a)"><animate attributeName="cx" values="800;700;800" dur="3s" repeatCount="indefinite"/></circle><circle cx="500" cy="700" r="90" fill="url(%23a)"><animate attributeName="r" values="90;130;90" dur="5s" repeatCount="indefinite"/></circle></svg>');
+            opacity: 0.3;
+        }
+
+        .page-header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: slideInUp 1s ease-out;
+            position: relative;
+            z-index: 2;
+        }
+
+        .page-header p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            animation: slideInUp 1s ease-out 0.3s both;
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Course Grid */
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 2rem;
+            padding: 2rem 50px;
+        }
+
+        .course-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .course-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .course-header {
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .course-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255, 255, 255, 0.1) 10px,
+                rgba(255, 255, 255, 0.1) 20px
+            );
+            animation: shimmer 4s infinite linear;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .course-icon {
+            font-size: 4rem;
+            color: white;
+            z-index: 2;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .course-card:hover .course-icon {
+            transform: scale(1.2) rotateY(360deg);
+        }
+
+        .course-content {
+            padding: 2rem;
+        }
+
+        .course-category {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .course-title {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .course-card:hover .course-title {
+            color: #667eea;
+        }
+
+        .course-description {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .course-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 10px;
+        }
+
+        .course-duration,
+        .course-level {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .course-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .course-features li {
+            padding: 0.5rem 0;
+            color: #666;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .course-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .course-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .course-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .course-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .course-btn:hover::before {
+            left: 100%;
+        }
+
+        /* Statistics Section */
+        .stats-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 4rem 0;
+            color: white;
+            margin: 3rem 0;
+            border-radius: 30px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: scale(1.1);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            animation: countUp 2s ease-out;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        @keyframes countUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Popular Courses Section */
+        .popular-courses {
+            padding: 5rem 50px;
+            background: white;
+            border-radius: 30px;
+            margin: 2rem 0;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+        }
+
+        .popular-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 3fr));
+            gap: 1.5rem;
+        }
+
+        .popular-card {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+            padding: 1.5rem;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .popular-card:hover {
+            transform: translateX(10px);
+            border-left: 4px solid #667eea;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .popular-card h3 {
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .popular-card p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .popular-rank {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #333;
+            color: white;
+            padding: 3rem 0 1rem;
+            margin-top: 5rem;
+            padding-left: 90px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: #667eea;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #555;
+            color: #999;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .filter-buttons {
+                gap: 0.5rem;
+            }
+            
+            .filter-btn {
+                padding: 0.6rem 1.5rem;
+                font-size: 0.9rem;
+            }
+            
+            .course-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">Navgujarat College</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="collageabout.html">About</a></li>
+                <li><a href="collagecourses.html" class="active">Courses</a></li>
+                <li><a href="collagefaculty.html">Faculty</a></li>
+                <li><a href="collagecontact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Our Courses</h1>
+            <p>Discover our comprehensive range of academic programs designed for your success</p>
+        </div>
+    </section>
+
+    <!-- Course Grid -->
+    <section class="container">
+        <div class="course-grid">
+            <!-- Computer Science Course -->
+            <div class="course-card">
+                <div class="course-header">
+                    <div class="course-icon">💻</div>
+                </div>
+                <div class="course-content">
+                    <span class="course-category">Technology</span>
+                    <h2 class="course-title">Computer Science & Engineering</h2>
+                    <p class="course-description">Comprehensive program covering software development, algorithms, data structures, and modern computing technologies.</p>
+                    <div class="course-details">
+                        <div class="course-duration">
+                            <span>⏱️</span>
+                            <span>4 Years</span>
+                        </div>
+                        <div class="course-level">
+                            <span>📊</span>
+                            <span>Bachelor's</span>
+                        </div>
+                    </div>
+                    <ul class="course-features">
+                        <li>Programming Languages</li>
+                        <li>Database Management</li>
+                        <li>Web Development</li>
+                        <li>Machine Learning Basics</li>
+                    </ul>
+                    <button class="course-btn">Learn More</button>
+                </div>
+            </div>
+
+            <!-- Business Administration Course -->
+            <div class="course-card">
+                <div class="course-header">
+                    <div class="course-icon">📈</div>
+                </div>
+                <div class="course-content">
+                    <span class="course-category">Business</span>
+                    <h2 class="course-title">Business Administration</h2>
+                    <p class="course-description">Develop leadership and management skills with focus on marketing, finance, operations, and strategic planning.</p>
+                    <div class="course-details">
+                        <div class="course-duration">
+                            <span>⏱️</span>
+                            <span>3 Years</span>
+                        </div>
+                        <div class="course-level">
+                            <span>📊</span>
+                            <span>Bachelor's</span>
+                        </div>
+                    </div>
+                    <ul class="course-features">
+                        <li>Marketing Management</li>
+                        <li>Financial Planning</li>
+                        <li>Human Resources</li>
+                        <li>Business Strategy</li>
+                    </ul>
+                    <button class="course-btn">Learn More</button>
+                </div>
+            </div>
+
+            <!-- Mechanical Engineering Course -->
+            <div class="course-card">
+                <div class="course-header">
+                    <div class="course-icon">⚙️</div>
+                </div>
+                <div class="course-content">
+                    <span class="course-category">Engineering</span>
+                    <h2 class="course-title">Mechanical Engineering</h2>
+                    <p class="course-description">Design, develop, and manufacture mechanical systems with emphasis on innovation and sustainability.</p>
+                    <div class="course-details">
+                        <div class="course-duration">
+                            <span>⏱️</span>
+                            <span>4 Years</span>
+                        </div>
+                        <div class="course-level">
+                            <span>📊</span>
+                            <span>Bachelor's</span>
+                        </div>
+                    </div>
+                    <ul class="course-features">
+                        <li>CAD/CAM Design</li>
+                        <li>Thermodynamics</li>
+                        <li>Manufacturing Processes</li>
+                        <li>Robotics & Automation</li>
+                    </ul>
+                    <button class="course-btn">Learn More</button>
+                </div>
+            </div>
+
+            <!-- Applied Physics Course -->
+            <div class="course-card">
+                <div class="course-header">
+                    <div class="course-icon">🔬</div>
+                </div>
+                <div class="course-content">
+                    <span class="course-category">Science</span>
+                    <h2 class="course-title">Applied Physics</h2>
+                    <p class="course-description">Explore fundamental physics principles and their practical applications in modern technology and research.</p>
+                    <div class="course-details">
+                        <div class="course-duration">
+                            <span>⏱️</span>
+                            <span>3 Years</span>
+                        </div>
+                        <div class="course-level">
+                            <span>📊</span>
+                            <span>Bachelor's</span>
+                        </div>
+                    </div>
+                    <ul class="course-features">
+                        <li>Quantum Physics</li>
+                        <li>Materials Science</li>
+                        <li>Electronics & Instrumentation</li>
+                        <li>Research Methods</li>
+                    </ul>
+                    <button class="course-btn">Learn More</button>
+                </div>
+            </div>
+
+            <!-- English Literature Course -->
+            <div class="course-card">
+                <div class="course-header">
+                    <div class="course-icon">📚</div>
+                </div>
+                <div class="course-content">
+                    <span class="course-category">Arts</span>
+                    <h2 class="course-title">English Literature</h2>
+                    <p class="course-description">Study classic and contemporary literature, developing critical thinking and communication skills.</p>
+                    <div class="course-details">
+                        <div class="course-duration">
+                            <span>⏱️</span>
+                            <span>3 Years</span>
+                        </div>
+                        <div class="course-level">
+                            <span>📊</span>
+                            <span>Bachelor's</span>
+                        </div>
+                    </div>
+                    <ul class="course-features">
+                        <li>Literary Analysis</li>
+                        <li>Creative Writing</li>
+                        <li>World Literature</li>
+                        <li>Communication Skills</li>
+                    </ul>
+                    <button class="course-btn">Learn More</button>
+                </div>
+            </div>
+
+            <!-- Data Science Course -->
+            <div class="course-card">
+                <div class="course-header">
+                    <div class="course-icon">📊</div>
+                </div>
+                <div class="course-content">
+                    <span class="course-category">Technology</span>
+                    <h2 class="course-title">Data Science & Analytics</h2>
+                    <p class="course-description">Master data analysis, machine learning, and statistical modeling for data-driven decision making.</p>
+                    <div class="course-details">
+                        <div class="course-duration">
+                            <span>⏱️</span>
+                            <span>2 Years</span>
+                        </div>
+                        <div class="course-level">
+                            <span>📊</span>
+                            <span>Master's</span>
+                        </div>
+                    </div>
+                    <ul class="course-features">
+                        <li>Python Programming</li>
+                        <li>Machine Learning</li>
+                        <li>Statistical Analysis</li>
+                        <li>Data Visualization</li>
+                    </ul>
+                    <button class="course-btn">Learn More</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Total Courses</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">200+</div>
+                    <div class="stat-label">Expert Faculty</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">5000+</div>
+                    <div class="stat-label">Students Enrolled</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">95%</div>
+                    <div class="stat-label">Success Rate</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Courses -->
+    <section class="popular-courses">
+        <div class="container">
+            <h2 class="section-title">Most Popular Courses</h2>
+            <div class="popular-grid">
+                <div class="popular-card">
+                    <div class="popular-rank">1</div>
+                    <h3>Computer Science Engineering</h3>
+                    <p>High demand in IT industry with excellent career prospects</p>
+                </div>
+                <div class="popular-card">
+                    <div class="popular-rank">2</div>
+                    <h3>Business Administration</h3>
+                    <p>Versatile degree opening doors to various management roles</p>
+                </div>
+                <div class="popular-card">
+                    <div class="popular-rank">3</div>
+                    <h3>Data Science & Analytics</h3>
+                    <p>Rapidly growing field with opportunities across all industries</p>
+                </div>
+                <div class="popular-card">
+                    <div class="popular-rank">4</div>
+                    <h3>Mechanical Engineering</h3>
+                    <p>Core engineering discipline with diverse application areas</p>
+                </div>
+                <div class="popular-card">
+                    <div class="popular-rank">5</div>
+                    <h3>Applied Physics</h3>
+                    <p>Strong foundation for research and technology careers</p>
+                </div>
+                <div class="popular-card">
+                    <div class="popular-rank">6</div>
+                    <h3>English Literature</h3>
+                    <p>Develops critical thinking and communication skills</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="collagehome.html">Home</a></li>
+                        <li><a href="collageabout.html">About Us</a></li>
+                        <li><a href="collagecourses.html">Courses</a></li>
+                        <li><a href="collagefaculty.html">Faculty</a></li>
+                        <li><a href="collagecontact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <ul>
+                        <li>📍 Navgujarat College Campus</li>
+                        <li>📞 +91 98765 43210</li>
+                        <li>✉️ info@navgujaratcollege.edu.in</li>
+                        <li>🌐 www.navgujaratcollege.edu.in</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Popular Courses</h3>
+                    <ul>
+                        <li><a href="courses.html">Computer Science</a></li>
+                        <li><a href="courses.html">Business Administration</a></li>
+                        <li><a href="courses.html">Engineering</a></li>
+                        <li><a href="courses.html">Arts & Humanities</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Navgujarat College. All rights reserved. | Excellence in Education |<br> Created by Shaikh Salikuddin.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
